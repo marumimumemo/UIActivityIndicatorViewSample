@@ -9,12 +9,36 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var activityIndicatorView = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        view.backgroundColor = .lightGray
+        activityIndicatorView.center = view.center
+        activityIndicatorView.color = .systemPink
+        activityIndicatorView.style = UIActivityIndicatorView.Style.large
+        activityIndicatorView.hidesWhenStopped = true
+
+        view.addSubview(activityIndicatorView)
     }
+    
+    @IBAction func startActivityIndicator(_ sender: UIButton) {
+        
+        activityIndicatorView.startAnimating()
 
+        DispatchQueue.global(qos: .default).async {
+            Thread.sleep(forTimeInterval: 5)
 
+            DispatchQueue.main.async {
+                self.activityIndicatorView.stopAnimating()
+            }
+        }
+    }
+    
+    @IBAction func stopActivityIndicator(_ sender: UIButton) {
+        activityIndicatorView.stopAnimating()
+    }
 }
 
